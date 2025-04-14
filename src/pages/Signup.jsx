@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 const Signup = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#E1F4F3] px-4">
