@@ -15,8 +15,11 @@ import './App.css'
 
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import SelectRole from "./components/SelectRole";
+import DocSignup from "./pages/DocSignup";
+import PatientSignup from "./pages/PatientSignup";
+import DocLogin from "./pages/DocLogin";
+import PatientLogin from "./pages/PatientLogin";
 import Dashboard from './pages/Dashboard';
 
 function App() {
@@ -24,8 +27,11 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/select-role" element={<SelectRole />} />
+        <Route path="/signup-doctor" element={<DocSignup />} />
+        <Route path="/signup-patient" element={<PatientSignup />} />
+        <Route path="/login-doctor" element={<DocLogin />} />
+        <Route path="/login-patient" element={<PatientLogin />} />
         <Route path='dashboard' element={<Dashboard/>} />
         {/* Add other routes here */}
       </Routes>
@@ -34,4 +40,10 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
 

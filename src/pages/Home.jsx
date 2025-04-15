@@ -23,7 +23,7 @@ const Home = () => {
 
     
       <button
-        onClick={() => navigate('/signup')}
+        onClick={() => navigate('/select-role')}
         className="bg-[#F97171] hover:bg-[#f75f5f] text-white font-semibold py-3 px-6 rounded-full shadow-sm transition duration-300"
       >
         Get Started
