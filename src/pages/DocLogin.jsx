@@ -28,7 +28,7 @@ const DocLogin = () => {
 
       localStorage.setItem("token", response.data.token);
 
-      navigate("/doc-home");
+      navigate("/dashboard");
     } catch (error) {
       setError(
         error.response ? error.response.data.message : "Something went wrong."
