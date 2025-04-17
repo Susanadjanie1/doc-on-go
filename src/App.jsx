@@ -1,17 +1,4 @@
-import './App.css'
-
-// function App() {
-
-//   return (
-//     <>
-//       <h1 className='font-bold flex justify-center text-blue-300 items-center text-9xl'>DocOnGo</h1>
-//       <p className='flex items-center justify-center p-3 font-semibold italic '>Your Pocket Doctor</p>
-//     </>
-//   )
-// }
-
-// export default App
-
+import "./App.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Home from "./pages/Home";
@@ -20,7 +7,10 @@ import DocSignup from "./pages/DocSignup";
 import PatientSignup from "./pages/PatientSignup";
 import DocLogin from "./pages/DocLogin";
 import PatientLogin from "./pages/PatientLogin";
-import Dashboard from './pages/Dashboard';
+import Dashboard from "./pages/Dashboard";
+import DoctorDashboard from "./pages/DoctorDashboard";
+import { DocHome } from "./pages/DocHome";
+import { PatientHome } from "./pages/PatientHome";
 
 function App() {
   return (
@@ -32,18 +22,13 @@ function App() {
         <Route path="/signup-patient" element={<PatientSignup />} />
         <Route path="/login-doctor" element={<DocLogin />} />
         <Route path="/login-patient" element={<PatientLogin />} />
-        <Route path='dashboard' element={<Dashboard/>} />
-        {/* Add other routes here */}
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="doc-dash" element={<DoctorDashboard />} />
+        <Route path="doc-home" element={<DocHome />} />
+        <Route path="patient-home" element={<PatientHome />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
-
-
-
-
-
-
-

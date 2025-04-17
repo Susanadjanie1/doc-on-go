@@ -23,21 +23,18 @@ const DocSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
     try {
-      // Make API request to register doctor
       const response = await axios.post(
         "https://docongo.onrender.com/api/v1/doctor/register",
         formData
       );
 
       if (response.data.success) {
-        // Navigate to doctor login page after successful registration
         navigate("/login-doctor");
       }
     } catch (error) {

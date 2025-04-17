@@ -25,26 +25,34 @@ const PatientLogin = () => {
         "https://docongo.onrender.com/api/v1/patient/login",
         formData
       );
-      // Store token in localStorage upon successful login
+
       localStorage.setItem("token", response.data.token);
 
-      navigate("/patient-dashboard"); // Redirect to patient dashboard or home page after successful login
+      navigate("/patient-home");
     } catch (error) {
-      setError(error.response ? error.response.data.message : "Something went wrong.");
+      setError(
+        error.response ? error.response.data.message : "Something went wrong."
+      );
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#E1F4F3] px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold text-[#1E3A8A] mb-2">Patient Login</h2>
-        <p className="text-sm text-gray-600 mb-6">Login to your Patient account</p>
+        <h2 className="text-2xl font-bold text-[#1E3A8A] mb-2">
+          Patient Login
+        </h2>
+        <p className="text-sm text-gray-600 mb-6">
+          Login to your Patient account
+        </p>
 
         {error && <p className="text-red-600 mb-4">{error}</p>}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Username</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
             <input
               type="text"
               name="username"
@@ -56,7 +64,9 @@ const PatientLogin = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               name="password"

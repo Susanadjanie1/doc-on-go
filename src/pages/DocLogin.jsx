@@ -4,7 +4,7 @@ import axios from "axios";
 
 const DocLogin = () => {
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,12 +25,14 @@ const DocLogin = () => {
         "https://docongo.onrender.com/api/v1/doctor/login",
         formData
       );
-      // Store token in localStorage upon successful login
+
       localStorage.setItem("token", response.data.token);
 
-      navigate("/dashboard"); // Redirect to dashboard or home page after successful login
+      navigate("/doc-home");
     } catch (error) {
-      setError(error.response ? error.response.data.message : "Something went wrong.");
+      setError(
+        error.response ? error.response.data.message : "Something went wrong."
+      );
     }
   };
 
@@ -38,13 +40,17 @@ const DocLogin = () => {
     <div className="min-h-screen flex items-center justify-center bg-[#E1F4F3] px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-bold text-[#1E3A8A] mb-2">Doctor Login</h2>
-        <p className="text-sm text-gray-600 mb-6">Login to your Doctor account</p>
+        <p className="text-sm text-gray-600 mb-6">
+          Login to your Doctor account
+        </p>
 
         {error && <p className="text-red-600 mb-4">{error}</p>}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email Address</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Email Address
+            </label>
             <input
               type="email"
               name="email"
@@ -56,7 +62,9 @@ const DocLogin = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               name="password"
