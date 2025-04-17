@@ -49,7 +49,7 @@ const featureCards = [
   },
 ];
 
-const DoctorDashboard = () => {
+const PatientDashboard = () => {
   const [activeView, setActiveView] = useState("dashboard");
 
   const handleCardClick = (action) => {
@@ -144,4 +144,4 @@ const NavItem = ({ label, icon, active }) => (
   </div>
 );
 
-export default DoctorDashboard;
+export default PatientDashboard;
