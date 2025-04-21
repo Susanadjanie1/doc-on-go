@@ -28,7 +28,7 @@ const PatientLogin = () => {
 
       localStorage.setItem("token", response.data.token);
 
-      navigate("/patient-home");
+      navigate("/patient-dash");
     } catch (error) {
       setError(
         error.response ? error.response.data.message : "Something went wrong."

@@ -36,7 +36,7 @@ const Home = () => {
      
       <section className="py-12 bg-white">
         <h2 className="text-3xl font-bold text-[#162B6A] mb-8">Our Specialties</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-8">
           {["General Physician", "Public Health", "Pediatrician", "Gynecologist"].map((specialty) => (
             <div key={specialty} className="bg-[#E1F4F3] p-6 rounded-lg shadow-md hover:shadow-lg transition">
               <h3 className="text-xl font-semibold text-[#1E3A8A]">{specialty}</h3>

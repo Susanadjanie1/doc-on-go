@@ -1,74 +1,83 @@
 import { useState } from "react";
-import { Heart, Brain, Eye, Stethoscope } from "lucide-react";
-import DocImg from "../assets/images/f-doc.png"; 
+import Sidebar from "../components/Sidebar";
+import DoctorProfileCard from "../components/DoctorProfileCard";
+import RequestCard from "../components/RequestCard";
+import RespondModal from "../components/RequestModal";
 
-const categories = [
-  { name: "Heart", icon: <Heart size={20} /> },
-  { name: "Brain", icon: <Brain size={20} /> },
-  { name: "Ear", icon: <Stethoscope size={20} /> },
-  { name: "Eye", icon: <Eye size={20} /> },
+// Sample requests assigned to the doctor
+const requests = [
+  {
+    id: 1,
+    patientName: "Kwame Mensah",
+    issue: "Blurred vision and headaches",
+    status: "Pending",
+    time: "10 mins ago",
+  },
+  {
+    id: 2,
+    patientName: "Ama Serwaa",
+    issue: "Severe eye irritation",
+    status: "In Progress",
+    time: "1 hour ago",
+  },
 ];
 
-
-const doctor = {
-  name: "Dr. Angela Opoku",
-  specialty: "Eye Specialist",
-  price: "GHC90",
-  image: DocImg,
-};
-
 const Dashboard = () => {
-  const [search, setSearch] = useState("");
+  const [assignedRequests, setAssignedRequests] = useState(requests);
+  const [selectedRequest, setSelectedRequest] = useState(null); // For modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const updateStatus = (id, newStatus) => {
+    setAssignedRequests((prev) =>
+      prev.map((req) => (req.id === id ? { ...req, status: newStatus } : req))
+    );
+  };
+
+  const handleRespond = (request) => {
+    setSelectedRequest(request);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedRequest(null);
+    setIsModalOpen(false);
+  };
 
   return (
-    <div className="min-h-screen bg-[#E1F4F3] px-4 py-6 text-gray-800">
-      <h1 className="text-xl font-semibold mb-4">Welcome back, Jane 👋</h1>
+    <div className="flex min-h-screen bg-gradient-to-br from-[#f0f4f8] to-[#d9e8ec]">
+      {/* Sidebar */}
+      <Sidebar />
 
-      <div className="mb-6">
-        <input
-          type="text"
-          placeholder="Search doctors..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#F97171] focus:outline-none"
-        />
-      </div>
+      {/* Main Content */}
+      <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+        {/* Welcome message */}
+        <h1 className="text-2xl font-bold mb-4">
+          Good day, Dr. Angela Opoku 👩‍⚕️
+        </h1>
 
-      <h2 className="text-lg font-semibold mb-2">Doctor Categories</h2>
-      <div className="flex space-x-4 overflow-x-auto mb-6">
-        {categories.map((cat, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center bg-white shadow rounded-xl px-4 py-3 text-sm min-w-[80px]"
-          >
-            <div className="text-[#1E3A8A] mb-1">{cat.icon}</div>
-            <span>{cat.name}</span>
+        {/* Doctor's Profile */}
+        <DoctorProfileCard />
+
+        {/* Assigned Patient Requests */}
+        <section>
+          <h2 className="text-xl font-semibold mb-4">Assigned Requests</h2>
+          <div className="space-y-4">
+            {assignedRequests.map((request) => (
+              <RequestCard
+                key={request.id}
+                request={request}
+                onUpdateStatus={updateStatus}
+                onRespond={handleRespond}
+              />
+            ))}
           </div>
-        ))}
+        </section>
       </div>
 
-      <h2 className="text-lg font-semibold mb-2">Top Doctors</h2>
-      <div className="space-y-4">
-        {[...Array(7)].map((_, index) => (
-          <div
-            key={index}
-            className="bg-white p-4 rounded-xl shadow flex items-center space-x-4"
-          >
-            <img
-              src={doctor.image}
-              alt={doctor.name}
-              className="w-16 h-16 rounded-full object-cover"
-            />
-            <div>
-              <h3 className="font-semibold text-md">{doctor.name}</h3>
-              <p className="text-sm text-gray-500">{doctor.specialty}</p>
-              <p className="text-sm text-[#F97171] font-medium mt-1">
-                {doctor.price}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* Modal to respond to request */}
+      {isModalOpen && selectedRequest && (
+        <RespondModal request={selectedRequest} onClose={handleCloseModal} />
+      )}
     </div>
   );
 };
