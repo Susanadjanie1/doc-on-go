@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";  
+import { apiClient } from "../services/config";
 
 const PatientSymptomForm = () => {
   const [formData, setFormData] = useState({

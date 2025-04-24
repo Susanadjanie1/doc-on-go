@@ -49,7 +49,7 @@ const GetPrescription = () => {
   };
 
   const goBackToDashboard = () => {
-    navigate("/dashboard");  
+    navigate("/patient-dash");  
   };
 
   if (loading) {
