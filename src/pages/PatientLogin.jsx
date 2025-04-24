@@ -6,7 +6,7 @@ const PatientLogin = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -23,15 +23,18 @@ const PatientLogin = () => {
     try {
       const response = await axios.post(
         "https://docongo.onrender.com/api/v1/patient/login",
-        formData
+        formData,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
       );
 
-      localStorage.setItem("token", response.data.token);
-
+      localStorage.setItem("accessToken", response.data.accessToken);
       navigate("/patient-dash");
     } catch (error) {
+      console.error("Login error:", error);
       setError(
-        error.response ? error.response.data.message : "Something went wrong."
+        error.response?.data?.message || "Login failed. Please try again."
       );
     }
   };
@@ -39,9 +42,7 @@ const PatientLogin = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#E1F4F3] px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold text-[#1E3A8A] mb-2">
-          Patient Login
-        </h2>
+        <h2 className="text-2xl font-bold text-[#1E3A8A] mb-2">Patient Login</h2>
         <p className="text-sm text-gray-600 mb-6">
           Login to your Patient account
         </p>
@@ -51,12 +52,12 @@ const PatientLogin = () => {
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Username
+              Email Address
             </label>
             <input
-              type="text"
-              name="username"
-              value={formData.username}
+              type="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               required
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F97171]"

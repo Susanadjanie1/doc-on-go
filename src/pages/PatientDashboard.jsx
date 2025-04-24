@@ -10,32 +10,39 @@ import {
   Activity,
   AlertCircle,
 } from "lucide-react";
+import { useNavigate } from "react-router";
 
 import PatientSymptomForm from "../components/PatientSymptomForm";
 import ScanIllnessAssistant from "../components/ScanIllnessAssistant";
-import GetPrescription from "../components/GetPrescription";
 import WellnessTips from "../components/WellnessTips";
+import HealthLogs from "../components/HealthLogs";
+import EmergencyHelp from "../components/EmergencyHelp";
 
 const featureCards = [
   {
     title: "Input Symptoms",
     icon: <Stethoscope size={28} />,
     color: "bg-teal-100",
-    action: "inputSymptoms",
+    action: "symptomForm",
   },
   {
     title: "Scan with Camera",
     icon: <Camera size={28} />,
     color: "bg-amber-100",
-    action: "scanIllness",
+    action: "scanAssistant",
   },
   {
     title: "Get Prescription",
     icon: <Pill size={28} />,
     color: "bg-rose-100",
-    action: "getPrescription",
+    action: "prescription",
   },
-  { title: "Health Logs", icon: <Activity size={28} />, color: "bg-sky-100" },
+  {
+    title: "Health Logs",
+    icon: <Activity size={28} />,
+    color: "bg-sky-100",
+    action: "healthLogs",
+  },
   {
     title: "Wellness Tips",
     icon: <Lightbulb size={28} />,
@@ -46,28 +53,30 @@ const featureCards = [
     title: "Emergency Help",
     icon: <AlertCircle size={28} />,
     color: "bg-red-100",
+    action: "emergencyHelp",
   },
 ];
 
 const PatientDashboard = () => {
   const [activeView, setActiveView] = useState("dashboard");
+  const navigate = useNavigate();
 
   const handleCardClick = (action) => {
-    switch (action) {
-      case "inputSymptoms":
-        setActiveView("symptomForm");
-        break;
-      case "scanIllness":
-        setActiveView("scanAssistant");
-        break;
-      case "getPrescription":
-        setActiveView("prescription");
-        break;
-      case "wellnessTips":
-        setActiveView("wellnessTips");
-        break;
-      default:
-        setActiveView("dashboard");
+    if (action === "prescription") {
+      const savedId = localStorage.getItem("lastRequestId");
+      if (savedId) {
+        navigate(`/prescription/${savedId}`);
+      } else {
+        alert("No recent prescription found. Please submit symptoms first.");
+      }
+    } else if (action === "healthLogs") {
+      navigate("/health-logs");
+    } else if (action === "wellnessTips") {
+      navigate("/wellness-tips");
+    } else if (action === "emergencyHelp") {
+      navigate("/emergency-help");
+    } else {
+      setActiveView(action);
     }
   };
 
@@ -77,15 +86,17 @@ const PatientDashboard = () => {
         return <PatientSymptomForm />;
       case "scanAssistant":
         return <ScanIllnessAssistant />;
-      case "prescription":
-        return <GetPrescription />;
+      case "healthLogs":
+        return <HealthLogs />;
       case "wellnessTips":
         return <WellnessTips />;
+      case "emergencyHelp":
+        return <EmergencyHelp />;
       default:
         return (
           <>
             <div className="px-6 pt-10 pb-4">
-              <h1 className="text-3xl font-bold mb-1">Hi Adjoa Mensah</h1>
+              <h1 className="text-3xl font-bold mb-1">Hi Adjoa Mensah 👋</h1>
               <p className="text-md text-gray-600">
                 What would you like to do today?
               </p>
@@ -109,7 +120,10 @@ const PatientDashboard = () => {
             </div>
 
             <div className="px-6 mb-6">
-              <button className="w-full bg-[#FF8B77] text-white py-3 rounded-xl font-semibold text-lg shadow-md hover:bg-[#ff6f5e] transition">
+              <button
+                onClick={() => setActiveView("symptomForm")}
+                className="w-full bg-[#FF8B77] text-white py-3 rounded-xl font-semibold text-lg shadow-md hover:bg-[#ff6f5e] transition"
+              >
                 Get Started
               </button>
             </div>
@@ -122,26 +136,41 @@ const PatientDashboard = () => {
     <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-[#e6f5f3] to-white text-gray-800 font-sans">
       {renderContent()}
 
-      {/* Bottom Nav */}
       <nav className="bg-white px-6 py-3 flex justify-around items-center rounded-t-3xl shadow-inner border-t">
-        <NavItem label="Home" icon={<Home size={24} />} active />
-        <NavItem label="Logs" icon={<Notebook size={24} />} />
-        <NavItem label="Tips" icon={<Lightbulb size={24} />} />
-        <NavItem label="Profile" icon={<User size={24} />} />
+        <NavItem
+          label="Home"
+          icon={<Home size={24} />}
+          active={activeView === "dashboard"}
+          onClick={() => setActiveView("dashboard")}
+        />
+        <NavItem
+          label="Logs"
+          icon={<Notebook size={24} />}
+          active={activeView === "healthLogs"}
+          onClick={() => setActiveView("healthLogs")}
+        />
+        <NavItem
+          label="Tips"
+          icon={<Lightbulb size={24} />}
+          active={activeView === "wellnessTips"}
+          onClick={() => setActiveView("wellnessTips")}
+        />
+        <NavItem label="Profile" icon={<User size={24} />} active={false} />
       </nav>
     </div>
   );
 };
 
-const NavItem = ({ label, icon, active }) => (
-  <div
+const NavItem = ({ label, icon, active, onClick }) => (
+  <button
+    onClick={onClick}
     className={`flex flex-col items-center text-xs transition ${
       active ? "text-[#FF8B77] font-semibold" : "text-gray-500"
     }`}
   >
     {icon}
     <span className="mt-1">{label}</span>
-  </div>
+  </button>
 );
 
 export default PatientDashboard;
