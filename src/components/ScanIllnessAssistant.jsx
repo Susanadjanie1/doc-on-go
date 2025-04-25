@@ -6,10 +6,12 @@ const ScanIllnessAssistant = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [scanComplete, setScanComplete] = useState(false);
   const [image, setImage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleScan = () => {
     setIsScanning(true);
     setScanComplete(false);
+    setErrorMessage("");
 
     setTimeout(() => {
       setIsScanning(false);
@@ -19,17 +21,19 @@ const ScanIllnessAssistant = () => {
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
+    setErrorMessage(""); 
   };
 
   const handleSubmitScan = async () => {
     if (!image) {
-      alert("Please upload an image first.");
+      setErrorMessage("Please upload an image first.");
       return;
     }
+
     const formData = new FormData();
     formData.append("title", "Scanned Symptoms");
     formData.append("description", "Scan image submission");
-    formData.append("specialty", "General Physician"); 
+    formData.append("specialty", "General Physician");
     formData.append("location", "Accra");
     formData.append("followUpContact", "0547255873");
     formData.append("image", image);
@@ -40,37 +44,52 @@ const ScanIllnessAssistant = () => {
       alert("Scan submitted successfully!");
     } catch (error) {
       console.error("Error submitting scan:", error);
-      alert("Something went wrong with the scan upload.");
+      setErrorMessage("Something went wrong with the scan upload.");
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-white to-[#f0fdf4] px-6 py-10 text-gray-800">
       <div className="text-center space-y-3">
-        <h2 className="text-2xl font-bold">Scan for Health Issues</h2>
+        <h2 className="text-2xl font-bold text-[#1A6436]">Scan for Health Issues</h2>
         <p className="text-sm text-gray-600">
           Hold your camera to the affected area or upload a photo for analysis.
         </p>
       </div>
 
       <div className="mt-10 flex flex-col justify-center items-center gap-4">
-        <div className="w-64 h-64 bg-white rounded-2xl shadow-inner flex items-center justify-center border border-dashed border-teal-300">
+        <div className="w-64 h-64 sm:w-48 sm:h-48 bg-white rounded-2xl shadow-inner flex items-center justify-center border border-dashed border-teal-300">
           {isScanning ? (
-            <Loader2 className="animate-spin text-teal-500" size={48} />
+            <Loader2 className="animate-spin text-[#7ECD26]" size={48} />
           ) : scanComplete ? (
-            <CheckCircle2 className="text-green-500" size={48} />
+            <CheckCircle2 className="text-[#1A6436]" size={48} />
           ) : (
             <Camera className="text-gray-400" size={48} />
           )}
         </div>
 
+        {image && (
+          <img
+            src={URL.createObjectURL(image)}
+            alt="Uploaded preview"
+            className="w-32 h-32 object-cover rounded-md mt-4"
+          />
+        )}
+
         <input
           type="file"
           accept="image/*"
           onChange={handleImageChange}
-          className="text-sm text-gray-600"
+          className="text-sm text-gray-600 mt-4"
+          aria-label="Upload a photo for scan analysis"
         />
       </div>
+
+      {errorMessage && (
+        <div className="mt-4 text-center text-red-600 font-medium">
+          <p>{errorMessage}</p>
+        </div>
+      )}
 
       <div className="mt-8 space-y-4">
         <button
@@ -79,7 +98,7 @@ const ScanIllnessAssistant = () => {
           className={`w-full py-3 rounded-xl font-semibold text-lg transition shadow-md ${
             isScanning
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-teal-500 text-white hover:bg-teal-600"
+              : "bg-[#7ECD26] text-white hover:bg-[#1A6436]"
           }`}
         >
           {isScanning ? "Scanning..." : "Start Scan"}
@@ -97,7 +116,7 @@ const ScanIllnessAssistant = () => {
 
       {scanComplete && (
         <div className="mt-6 text-center">
-          <p className="text-green-600 font-medium">
+          <p className="text-[#1A6436] font-medium">
             Scan complete! Ready to submit.
           </p>
           <p className="text-sm text-gray-500 mt-1">

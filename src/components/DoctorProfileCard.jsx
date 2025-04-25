@@ -10,7 +10,7 @@ const DoctorProfileCard = () => {
       />
       <div>
         <h2 className="text-xl font-semibold">Dr. Angela Opoku</h2>
-        <p className="text-gray-500 text-sm">Eye Specialist</p>
+        <p className="text-gray-500 text-sm">Pedetrician</p>
         <p className="text-green-500 text-sm">Online</p>
       </div>
     </div>

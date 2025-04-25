@@ -96,10 +96,8 @@ const PatientDashboard = () => {
         return (
           <>
             <div className="px-6 pt-10 pb-4">
-              <h1 className="text-3xl font-bold mb-1">Hi Adjoa Mensah 👋</h1>
-              <p className="text-md text-gray-600">
-                What would you like to do today?
-              </p>
+              <h1 className="text-3xl font-bold text-[#1A6436] mb-1">Hi Adjoa Mensah 👋</h1>
+              <p className="text-md text-gray-600">What would you like to do today?</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4 px-6 pb-6">
@@ -107,13 +105,11 @@ const PatientDashboard = () => {
                 <div
                   key={index}
                   onClick={() => handleCardClick(card.action)}
-                  className={`rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer ${card.color}`}
+                  className={`rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer ${card.color} transform hover:scale-105`}
                 >
                   <div className="flex flex-col items-center justify-center space-y-2">
-                    <div className="text-primary">{card.icon}</div>
-                    <p className="text-sm font-medium text-center">
-                      {card.title}
-                    </p>
+                    <div className="text-primary text-2xl">{card.icon}</div>
+                    <p className="text-sm font-medium text-center text-[#1A6436]">{card.title}</p>
                   </div>
                 </div>
               ))}
@@ -122,7 +118,7 @@ const PatientDashboard = () => {
             <div className="px-6 mb-6">
               <button
                 onClick={() => setActiveView("symptomForm")}
-                className="w-full bg-[#FF8B77] text-white py-3 rounded-xl font-semibold text-lg shadow-md hover:bg-[#ff6f5e] transition"
+                className="w-full bg-[#1A6436] hover:bg-[#7ECD26] text-white py-3 rounded-xl font-semibold text-lg shadow-md hover:shadow-xl transition"
               >
                 Get Started
               </button>
@@ -133,7 +129,7 @@ const PatientDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-[#e6f5f3] to-white text-gray-800 font-sans">
+    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-[#E6F5F3] to-white text-gray-800 font-sans">
       {renderContent()}
 
       <nav className="bg-white px-6 py-3 flex justify-around items-center rounded-t-3xl shadow-inner border-t">
@@ -164,8 +160,8 @@ const PatientDashboard = () => {
 const NavItem = ({ label, icon, active, onClick }) => (
   <button
     onClick={onClick}
-    className={`flex flex-col items-center text-xs transition ${
-      active ? "text-[#FF8B77] font-semibold" : "text-gray-500"
+    className={`flex flex-col items-center text-xs transition-all ${
+      active ? "text-[#1A6436] font-semibold" : "text-gray-500"
     }`}
   >
     {icon}

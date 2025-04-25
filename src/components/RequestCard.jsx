@@ -1,6 +1,4 @@
-import { CheckCircle, MessageSquare } from "lucide-react";
-
-const RequestCard = ({ request, onStart, onComplete, onRespond }) => {
+const RequestCard = ({ request, onUpdateStatus, onRespond, onView }) => {
   return (
     <div className="bg-white p-5 rounded-2xl shadow flex flex-col space-y-3">
       <div className="flex justify-between items-center">
@@ -28,18 +26,18 @@ const RequestCard = ({ request, onStart, onComplete, onRespond }) => {
           <>
             {request.status === "Pending" && (
               <button
-                onClick={() => onStart(request.id)}
+                onClick={() => onUpdateStatus(request._id, "In Progress")}
                 className="ml-auto text-sm text-blue-600 hover:underline flex items-center"
               >
-                <CheckCircle size={16} className="mr-1" /> Start
+                Start
               </button>
             )}
             {request.status === "In Progress" && (
               <button
-                onClick={() => onComplete(request.id)}
+                onClick={() => onUpdateStatus(request._id, "Completed")}
                 className="ml-auto text-sm text-green-600 hover:underline flex items-center"
               >
-                <CheckCircle size={16} className="mr-1" /> Complete
+                Complete
               </button>
             )}
           </>
@@ -47,9 +45,16 @@ const RequestCard = ({ request, onStart, onComplete, onRespond }) => {
 
         <button
           onClick={() => onRespond(request)}
+          className="ml-auto text-sm text-gray-500 hover:underline flex items-center"
+        >
+          Respond
+        </button>
+
+        <button
+          onClick={() => onView(request._id)}
           className="text-sm text-gray-500 hover:underline flex items-center"
         >
-          <MessageSquare size={16} className="mr-1" /> Respond
+          View
         </button>
       </div>
     </div>

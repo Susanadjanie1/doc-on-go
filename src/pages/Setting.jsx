@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Camera } from "lucide-react";
-import DocImg from "../assets/images/f-doc.png"; // default
+import DocImg from "../assets/images/f-doc.png";
 
 const Setting = () => {
   const [profilePic, setProfilePic] = useState(DocImg);
@@ -18,14 +18,12 @@ const Setting = () => {
 
   const handleSave = () => {
     alert("Profile updated successfully!");
-    // Ideally you would send this to your backend API
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f0f4f8] to-[#d9e8ec] p-6">
-      <h1 className="text-2xl font-bold mb-6">Settings ⚙️</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#F4FBF4] to-[#E8F7E8] p-6">
+      <h1 className="text-2xl font-bold mb-6 text-[#1A6436]">Settings ⚙️</h1>
 
-      {/* Profile Picture */}
       <div className="flex flex-col items-center space-y-2 mb-8">
         <div className="relative">
           <img
@@ -33,7 +31,7 @@ const Setting = () => {
             alt="Profile"
             className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-lg"
           />
-          <label className="absolute bottom-0 right-0 bg-blue-600 p-1 rounded-full cursor-pointer hover:bg-blue-700">
+          <label className="absolute bottom-0 right-0 bg-[#1A6436] p-1 rounded-full cursor-pointer hover:bg-[#15552E]">
             <Camera size={20} className="text-white" />
             <input
               type="file"
@@ -46,7 +44,6 @@ const Setting = () => {
         <p className="text-gray-600 text-sm">Tap icon to change picture</p>
       </div>
 
-      {/* Form */}
       <div className="bg-white p-6 rounded-2xl shadow-lg space-y-4">
         <div>
           <label className="block text-gray-600 mb-1">Full Name</label>
@@ -54,7 +51,7 @@ const Setting = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
           />
         </div>
 
@@ -64,7 +61,7 @@ const Setting = () => {
             type="text"
             value={specialty}
             onChange={(e) => setSpecialty(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
           />
         </div>
 
@@ -75,23 +72,22 @@ const Setting = () => {
             placeholder="Enter new password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
           />
         </div>
 
         <div className="flex justify-end">
           <button
             onClick={handleSave}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+            className="bg-[#7ECD26] text-white px-6 py-2 rounded-lg hover:bg-[#6BBF20] transition"
           >
             Save Changes
           </button>
         </div>
       </div>
 
-      {/* Logout */}
       <div className="mt-8 flex justify-center">
-        <button className="text-red-500 hover:underline">Logout</button>
+        <button className="text-[#7ECD26] hover:underline">Logout</button>
       </div>
     </div>
   );

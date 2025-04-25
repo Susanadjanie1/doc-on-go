@@ -18,12 +18,12 @@ import HealthLogs from "./components/HealthLogs";
 import WellnessTips from "./components/WellnessTips";
 import EmergencyHelp from "./components/EmergencyHelp";
 import PatientSymptomForm from "./components/PatientSymptomForm";
+import DoctorRespond from "./components/DoctorRespond";
+import MyRequests from "./components/MyRequests";
 
 function App() {
   return (
-    
     <Router>
-      
       <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -38,11 +38,12 @@ function App() {
         <Route path="patient-home" element={<PatientHome />} />
         <Route path="setting" element={<Setting />} />
         <Route path="/prescription/:id" element={<GetPrescription />} />
-        <Route path="/health-logs" element={<HealthLogs/>} />
+        <Route path="/health-logs" element={<HealthLogs />} />
         <Route path="/wellness-tips" element={<WellnessTips />} />
-        <Route path="/emergency-help" element={<EmergencyHelp />} /> 
+        <Route path="/emergency-help" element={<EmergencyHelp />} />
         <Route path="/symptom-form" element={<PatientSymptomForm />} />
-
+        <Route path="/doctor/request" element={<MyRequests />} />
+        <Route path="/doctor/respond/:id" element={<DoctorRespond />} />
       </Routes>
     </Router>
   );

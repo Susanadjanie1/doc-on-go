@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { ArrowLeft } from "lucide-react"; 
 
 const tips = [
   {
@@ -26,38 +27,80 @@ const tips = [
       "Strive for 7-8 hours of restful sleep to help your body and mind recover.",
     icon: "😴",
   },
+  {
+    title: "Practice Mindfulness",
+    description:
+      "Meditate or take a few moments to breathe deeply and clear your mind each day.",
+    icon: "🧘‍♀️",
+  },
+  {
+    title: "Take Breaks",
+    description:
+      "Avoid burnout by taking regular breaks during work to stretch and refocus.",
+    icon: "⏸️",
+  },
+  {
+    title: "Limit Screen Time",
+    description:
+      "Try to reduce screen time and take breaks from digital devices for better mental health.",
+    icon: "📱",
+  },
+  {
+    title: "Strengthen Your Immune System",
+    description:
+      "Include immune-boosting foods like garlic, ginger, and citrus fruits in your diet.",
+    icon: "🦠",
+  },
 ];
 
 const WellnessTips = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen px-6 py-8 bg-gradient-to-b from-lime-50 to-white text-gray-800">
-      <div className="flex justify-between items-center mb-6">
+    <div className="min-h-screen px-6 py-8 bg-gradient-to-b from-[#F4FBF4] to-white text-gray-800">
+      
+      <div className="fixed top-4 left-6 z-10">
         <button
           onClick={() => navigate("/patient-dash")}
-          className="bg-[#FF8B77] text-white py-2 px-4 rounded-lg shadow-md hover:bg-[#ff6f5e] transition"
+          className="text-[#7ECD26] text-3xl rounded-full p-2 hover:bg-[#7ECD26] hover:text-white transition duration-300"
         >
-          Back to Dashboard
+          <ArrowLeft size={24} />
         </button>
-        <h2 className="text-2xl font-bold mb-4 text-center">Daily Wellness Tips 🌿</h2>
       </div>
 
-      <div className="space-y-4">
+      <div className="text-center mt-16 mb-6">
+        <h2 className="text-2xl font-bold text-[#1A6436]">Daily Wellness Tips 🌿</h2>
+      </div>
+
+      <div className="space-y-6 mb-8">
         {tips.map((tip, index) => (
           <div
             key={index}
-            className="bg-white rounded-xl shadow-md p-4 border border-lime-200 hover:shadow-lg transition-all duration-300"
+            className="bg-white rounded-xl shadow-lg p-6 border border-[#E0F5E1] hover:shadow-xl transition-all duration-300"
           >
             <div className="flex items-center space-x-4">
-              <div className="text-3xl">{tip.icon}</div>
+              <div className="text-4xl">{tip.icon}</div>
               <div>
-                <h3 className="text-lg font-semibold mb-1">{tip.title}</h3>
+                <h3 className="text-xl font-semibold text-[#1A6436] mb-2">{tip.title}</h3>
                 <p className="text-sm text-gray-600">{tip.description}</p>
               </div>
             </div>
           </div>
         ))}
+      </div>
+
+  
+      <div className="bg-[#7ECD26] p-6 rounded-xl shadow-lg text-white mt-8">
+        <h3 className="text-2xl font-semibold text-center mb-4">General Health Recommendations</h3>
+        <ul className="space-y-3">
+          <li className="text-sm">
+            🌱 Maintain a balanced diet with lean proteins, healthy fats, and complex carbs for sustained energy.
+          </li>
+          
+          <li className="text-sm">
+            💪 Focus on mental health by practicing mindfulness or journaling for a positive mindset.
+          </li>
+        </ul>
       </div>
     </div>
   );

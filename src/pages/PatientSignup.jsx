@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { Eye, EyeOff } from "lucide-react"; 
+import "react-toastify/dist/ReactToastify.css"; 
 
 const PatientSignup = () => {
   const navigate = useNavigate();
@@ -13,6 +16,8 @@ const PatientSignup = () => {
   });
 
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,6 +29,7 @@ const PatientSignup = () => {
 
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match.");
+      toast.error("Passwords do not match.");
       return;
     }
 
@@ -34,10 +40,14 @@ const PatientSignup = () => {
       );
 
       if (response.data.success) {
+        toast.success("Registration successful!");
         navigate("/login-patient");
       }
     } catch (error) {
       setError(
+        error.response ? error.response.data.message : "Something went wrong."
+      );
+      toast.error(
         error.response ? error.response.data.message : "Something went wrong."
       );
     }
@@ -46,7 +56,7 @@ const PatientSignup = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#E1F4F3] px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold text-[#1E3A8A] mb-2">
+        <h2 className="text-2xl font-bold text-[#1A6436] mb-2">
           Patient Sign Up
         </h2>
         <p className="text-sm text-gray-600 mb-6">
@@ -66,7 +76,7 @@ const PatientSignup = () => {
               value={formData.username}
               onChange={handleChange}
               required
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F97171]"
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
             />
           </div>
 
@@ -80,7 +90,7 @@ const PatientSignup = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F97171]"
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
             />
           </div>
 
@@ -88,33 +98,51 @@ const PatientSignup = () => {
             <label className="block text-sm font-medium text-gray-700">
               Password
             </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F97171]"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-3 text-gray-600"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff /> : <Eye />}
+              </button>
+            </div>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Confirm Password
             </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F97171]"
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-3 text-gray-600"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? <EyeOff /> : <Eye />}
+              </button>
+            </div>
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[#F97171] hover:bg-[#f75f5f] text-white font-semibold py-2.5 rounded-lg transition duration-300"
+            className="w-full bg-[#1A6436] hover:bg-[#7ECD26] text-white font-semibold py-2.5 rounded-lg transition duration-300"
           >
             Sign Up
           </button>
@@ -124,12 +152,14 @@ const PatientSignup = () => {
           Already have an account?{" "}
           <a
             href="/login-patient"
-            className="text-[#1E3A8A] font-semibold hover:underline"
+            className="text-[#7ECD26] font-semibold hover:underline"
           >
             Log In
           </a>
         </p>
       </div>
+
+      <ToastContainer />
     </div>
   );
 };

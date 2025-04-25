@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";  
+import { useParams, useNavigate } from "react-router";
 import { Download, ClipboardList, CheckCircle } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { apiClient } from "../services/config";
 
 const GetPrescription = () => {
-  const { id: requestId } = useParams();  
-  const navigate = useNavigate(); 
+  const { id: requestId } = useParams();
+  const navigate = useNavigate();
   const [prescriptionData, setPrescriptionData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [recommendations, setRecommendations] = useState([
+    "Take medication as prescribed to improve your symptoms.",
+    "Rest and hydrate regularly to support recovery.",
+    "Follow up with your doctor in case of any adverse reactions."
+  ]);
+  const [showRecommendations, setShowRecommendations] = useState(true);
 
   useEffect(() => {
     const fetchPrescription = async () => {
@@ -49,7 +55,7 @@ const GetPrescription = () => {
   };
 
   const goBackToDashboard = () => {
-    navigate("/patient-dash");  
+    navigate("/patient-dash");
   };
 
   if (loading) {
@@ -62,17 +68,17 @@ const GetPrescription = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-[#f0f8f7] p-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Your Prescription</h2>
+      <h2 className="text-2xl font-bold text-[#1A6436] mb-4">Your Prescription</h2>
 
       <div className="bg-white rounded-2xl shadow-md p-4 mb-4">
-        <h3 className="text-lg font-semibold text-gray-700 mb-2 flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-[#1A6436] mb-2 flex items-center gap-2">
           <ClipboardList size={20} /> Diagnosis Summary
         </h3>
         <p className="text-sm text-gray-600">{prescriptionData.description}</p>
       </div>
 
       <div className="bg-white rounded-2xl shadow-md p-4 mb-4">
-        <h3 className="text-lg font-semibold text-gray-700 mb-2 flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-[#1A6436] mb-2 flex items-center gap-2">
           <CheckCircle size={20} /> Medications
         </h3>
         <ul className="text-sm text-gray-700 list-disc pl-5 space-y-2">
@@ -81,10 +87,30 @@ const GetPrescription = () => {
         </ul>
       </div>
 
+      {/* Recommendations Section */}
+      {showRecommendations && (
+        <div className="bg-white rounded-2xl shadow-md p-4 mb-4">
+          <h3 className="text-lg font-semibold text-[#1A6436] mb-2">Health Recommendations</h3>
+          <ul className="text-sm text-gray-700 list-disc pl-5 space-y-2">
+            {recommendations.map((recommendation, index) => (
+              <li key={index}>{recommendation}</li>
+            ))}
+          </ul>
+          <div className="mt-4 text-center">
+            <button
+              onClick={() => setShowRecommendations(false)}
+              className="text-[#7ECD26] hover:text-[#1A6436] font-medium text-sm"
+            >
+              Hide Recommendations
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="flex justify-center mt-6">
         <button
           onClick={handleDownloadPDF}
-          className="bg-[#FF8B77] hover:bg-[#ff6f5e] text-white font-medium py-3 px-6 rounded-xl flex items-center gap-2 shadow-md"
+          className="bg-[#7ECD26] hover:bg-[#1A6436] text-white font-medium py-3 px-6 rounded-xl flex items-center gap-2 shadow-md"
         >
           <Download size={18} /> Download Prescription
         </button>
@@ -92,8 +118,8 @@ const GetPrescription = () => {
 
       <div className="flex justify-center mt-6">
         <button
-          onClick={goBackToDashboard}  
-          className="bg-[#FF8B77] hover:bg-[#ff6f5e] text-white font-medium py-3 px-6 rounded-xl flex items-center gap-2 shadow-md"
+          onClick={goBackToDashboard}
+          className="bg-[#1A6436] hover:bg-[#7ECD26] text-white font-medium py-3 px-6 rounded-xl flex items-center gap-2 shadow-md"
         >
           Go Back to Dashboard
         </button>
