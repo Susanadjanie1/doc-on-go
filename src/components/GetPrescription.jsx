@@ -68,22 +68,22 @@ const GetPrescription = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-[#f0f8f7] p-6">
-      <h2 className="text-2xl font-bold text-[#1A6436] mb-4">Your Prescription</h2>
+      <h2 className="text-2xl font-bold text-[#1A6436] mb-4">My Request</h2>
 
       <div className="bg-white rounded-2xl shadow-md p-4 mb-4">
         <h3 className="text-lg font-semibold text-[#1A6436] mb-2 flex items-center gap-2">
-          <ClipboardList size={20} /> Diagnosis Summary
+          <ClipboardList size={20} /> Symptoms Summary
         </h3>
         <p className="text-sm text-gray-600">{prescriptionData.description}</p>
       </div>
 
       <div className="bg-white rounded-2xl shadow-md p-4 mb-4">
         <h3 className="text-lg font-semibold text-[#1A6436] mb-2 flex items-center gap-2">
-          <CheckCircle size={20} /> Medications
+          <CheckCircle size={20} /> Doctors Response
         </h3>
         <ul className="text-sm text-gray-700 list-disc pl-5 space-y-2">
-          <li>Medication 1 – follow doctor's advice</li>
-          <li>Medication 2 – follow doctor's advice</li>
+          <li>Advice 1 – Wait for doctor's respond</li>
+          <li>Advice 2 – Follow doctor's advice</li>
         </ul>
       </div>
 

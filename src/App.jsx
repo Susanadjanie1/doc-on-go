@@ -22,6 +22,7 @@ import DoctorRespond from "./components/DoctorRespond";
 import MyRequests from "./components/MyRequests";
 import SingleRequest from "./components/SingleRequest";
 import ScanIllnessAssistant from "./components/ScanIllnessAssistant";
+import DoctorProfile from "./pages/DoctorProfile";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
         <Route path="/doctor/respond/:id" element={<DoctorRespond />} />
         <Route path="/doctor/request/:id" element={<SingleRequest />} />
         <Route path="/scan-assist" element={<ScanIllnessAssistant />} />
+        <Route path="/doctor-profile" element={<DoctorProfile />} />
       </Routes>
     </Router>
   );

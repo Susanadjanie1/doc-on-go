@@ -51,10 +51,6 @@ const PatientSymptomForm = () => {
           recommendation: "Consider visiting a doctor for a thorough checkup.",
         },
         {
-          id: 2,
-          recommendation: "Try over-the-counter medications to alleviate mild symptoms.",
-        },
-        {
           id: 3,
           recommendation: "Rest and drink plenty of fluids for general wellness.",
         },
