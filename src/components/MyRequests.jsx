@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { apiClient } from "../services/config";
 import { Loader2 } from "lucide-react";
 import RequestCard from "../components/RequestCard";
@@ -10,22 +10,18 @@ const MyRequests = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch doctor's assigned requests
+
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await apiClient.get('/my-requests');
-        const data = response.data;
-        // Normalize data shape
-        const list = Array.isArray(data.requests)
-          ? data.requests
-          : Array.isArray(data)
-          ? data
+        const response = await apiClient.get("/my-requests");
+        const list = Array.isArray(response.data.request)
+          ? response.data.request
           : [];
         setRequests(list);
       } catch (err) {
-        console.error('Error fetching requests:', err);
-        setError('Error fetching requests');
+        console.error("Error fetching requests:", err);
+        setError("Error fetching requests");
       } finally {
         setLoading(false);
       }
@@ -50,7 +46,7 @@ const MyRequests = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <Loader2 className="animate-spin text-teal-500" size={48} />
+        <Loader2 className="animate-spin text-[#1A6436]" size={48} />
       </div>
     );
   }
@@ -60,8 +56,19 @@ const MyRequests = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f0f4f8] to-[#d9e8ec] p-6">
-      <h1 className="text-2xl font-bold mb-6">My Assigned Requests</h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#F4FBF4] via-white to-[#F4FBF4] p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-[#1A6436]">
+          My Assigned Requests
+        </h1>
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="flex items-start text-[#1A6436] hover:text-[#14522A] text-sm font-medium"
+        >
+          ← Back to Dashboard
+        </button>
+      </div>
+
       {requests.length === 0 ? (
         <div className="bg-white shadow-md rounded-xl p-6 text-gray-600 text-center">
           No requests available.

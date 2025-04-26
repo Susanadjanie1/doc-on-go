@@ -20,11 +20,37 @@ import EmergencyHelp from "./components/EmergencyHelp";
 import PatientSymptomForm from "./components/PatientSymptomForm";
 import DoctorRespond from "./components/DoctorRespond";
 import MyRequests from "./components/MyRequests";
+import SingleRequest from "./components/SingleRequest";
+import ScanIllnessAssistant from "./components/ScanIllnessAssistant";
 
 function App() {
   return (
     <Router>
-      <Toaster position="top-right" />
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          duration: 6000,
+          style: {
+            background: "#F4FBF4",
+            color: "#1A6436",
+            borderRadius: "10px",
+            padding: "12px 16px",
+            fontSize: "14px",
+          },
+          success: {
+            style: {
+              background: "#D1FAD7",
+              color: "#14592F",
+            },
+          },
+          error: {
+            style: {
+              background: "#FFE1E1",
+              color: "#D14343",
+            },
+          },
+        }}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/select-role" element={<SelectRole />} />
@@ -44,6 +70,8 @@ function App() {
         <Route path="/symptom-form" element={<PatientSymptomForm />} />
         <Route path="/doctor/request" element={<MyRequests />} />
         <Route path="/doctor/respond/:id" element={<DoctorRespond />} />
+        <Route path="/doctor/request/:id" element={<SingleRequest />} />
+        <Route path="/scan-assist" element={<ScanIllnessAssistant />} />
       </Routes>
     </Router>
   );

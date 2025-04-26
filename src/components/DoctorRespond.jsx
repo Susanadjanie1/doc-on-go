@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { apiClient } from "../services/config";
+import toast from "react-hot-toast";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const DoctorRespond = () => {
   const { id } = useParams();
@@ -27,7 +29,7 @@ const DoctorRespond = () => {
 
   const handleSubmit = async () => {
     if (!diagnosis || meds.some((med) => !med.medication || !med.dosage || !med.duration)) {
-      alert("Please fill in all fields before submitting.");
+      toast.error("Please fill in all fields before submitting.");
       return;
     }
 
@@ -38,24 +40,54 @@ const DoctorRespond = () => {
         referral,
         referral_reason: referralReason,
       });
-      alert("Response submitted!");
-      navigate("/doctor-dash"); 
+      toast.success("Response submitted!");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error submitting response:", error);
-      alert("Failed to submit response.");
+      toast.error("Failed to submit response.");
     }
+  };
+
+  const handleClearMedication = (index) => {
+    const updatedMeds = [...meds];
+    updatedMeds[index] = { medication: "", dosage: "", duration: "" };
+    setMeds(updatedMeds);
   };
 
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h2 className="text-2xl font-bold mb-4">Respond to Request</h2>
+    <div
+      className="p-6 bg-cover bg-center min-h-screen"
+      style={{ backgroundImage: "url('/path/to/your/image.jpg')" }}
+    >
+      <div className="flex justify-between items-center mb-8">
+        <div
+          onClick={() => navigate("/dashboard")}
+          className="text-green-600 cursor-pointer flex items-center space-x-2"
+        >
+          <ArrowLeft className="w-6 h-6" />
+          <span>Go to Dashboard</span>
+        </div>
+        <div
+          onClick={() => navigate("/doctor/request")}
+          className="text-green-600 cursor-pointer flex items-center space-x-2"
+        >
+          <ArrowRight className="w-6 h-6" />
+          <span>Go to Requests</span>
+        </div>
+      </div>
+
+      <h2 className="text-2xl font-bold text-[#1A6436] mb-4">Respond to Request</h2>
 
       {request ? (
         <div className="space-y-4 bg-white p-6 rounded-xl shadow">
-          <p><strong>Patient:</strong> {request.patientName}</p>
-          <p><strong>Issue:</strong> {request.issue}</p>
+          <p className="text-lg font-semibold">
+            <span className="font-bold">Patient:</span> {request.patientName}
+          </p>
+          <p className="text-md">
+            <span className="font-bold">Issue:</span> {request.issue}
+          </p>
 
           <textarea
             placeholder="Diagnosis"
@@ -96,12 +128,13 @@ const DoctorRespond = () => {
                   setMeds(updated);
                 }}
               />
+              
             </div>
           ))}
 
           <button
             onClick={() => setMeds([...meds, { medication: "", dosage: "", duration: "" }])}
-            className="text-blue-600 text-sm mt-2"
+            className="text-green-600 text-sm mt-2"
           >
             + Add Medication
           </button>
@@ -122,7 +155,7 @@ const DoctorRespond = () => {
 
           <button
             onClick={handleSubmit}
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             Submit Response
           </button>

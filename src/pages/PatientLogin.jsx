@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -15,6 +15,7 @@ const PatientLogin = () => {
 
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,6 +24,7 @@ const PatientLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -34,14 +36,16 @@ const PatientLogin = () => {
       );
 
       localStorage.setItem("accessToken", response.data.accessToken);
-      toast.success("Login successful!"); // Show success toast
+      toast.success("Login successful!");
       navigate("/patient-dash");
     } catch (error) {
       console.error("Login error:", error);
       const errorMessage =
         error.response?.data?.message || "Login failed. Please try again.";
       setError(errorMessage);
-      toast.error(errorMessage); // Show error toast
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,9 +101,16 @@ const PatientLogin = () => {
 
           <button
             type="submit"
-            className="w-full bg-[#1A6436] hover:bg-[#7ECD26] text-white font-semibold py-2.5 rounded-lg transition duration-300"
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 bg-[#1A6436] hover:bg-[#7ECD26] text-white font-semibold py-2.5 rounded-lg transition duration-300 disabled:opacity-50"
           >
-            Log In
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" size={20} /> Logging in...
+              </>
+            ) : (
+              "Log In"
+            )}
           </button>
         </form>
       </div>

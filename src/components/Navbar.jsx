@@ -18,28 +18,16 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex gap-8 items-center">
-          <a
-            href="#home"
-            className="text-white hover:text-[#162B6A] transition duration-300"
-          >
+          <a href="#home" className="text-white hover:text-[#162B6A] transition duration-300">
             Home
           </a>
-          <a
-            href="#about"
-            className="text-white hover:text-[#162B6A] transition duration-300"
-          >
+          <a href="#about" className="text-white hover:text-[#162B6A] transition duration-300">
             About
           </a>
-          <a
-            href="#services"
-            className="text-white hover:text-[#162B6A] transition duration-300"
-          >
+          <a href="#services" className="text-white hover:text-[#162B6A] transition duration-300">
             Services
           </a>
-          <a
-            href="#contact"
-            className="text-white hover:text-[#162B6A] transition duration-300"
-          >
+          <a href="#contact" className="text-white hover:text-[#162B6A] transition duration-300">
             Contact
           </a>
 
@@ -53,42 +41,22 @@ export default function Navbar() {
 
         <div className="md:hidden">
           <button onClick={toggleMenu}>
-            {isOpen ? (
-              <X className="h-6 w-6 text-white" />
-            ) : (
-              <Menu className="h-6 w-6 text-white" />
-            )}
+            {isOpen ? <X className="h-6 w-6 text-white" /> : <Menu className="h-6 w-6 text-white" />}
           </button>
         </div>
 
         {isOpen && (
           <div className="absolute top-full left-0 right-0 bg-[#7ECD26]/80 backdrop-blur-md shadow-md flex flex-col items-center gap-4 py-6 md:hidden">
-            <a
-              href="#home"
-              className="text-white hover:text-[#162B6A] transition duration-300"
-              onClick={toggleMenu}
-            >
+            <a href="#home" className="text-white hover:text-[#162B6A] transition duration-300" onClick={toggleMenu}>
               Home
             </a>
-            <a
-              href="#about"
-              className="text-white hover:text-[#162B6A] transition duration-300"
-              onClick={toggleMenu}
-            >
+            <a href="#about" className="text-white hover:text-[#162B6A] transition duration-300" onClick={toggleMenu}>
               About
             </a>
-            <a
-              href="#services"
-              className="text-white hover:text-[#162B6A] transition duration-300"
-              onClick={toggleMenu}
-            >
+            <a href="#services" className="text-white hover:text-[#162B6A] transition duration-300" onClick={toggleMenu}>
               Services
             </a>
-            <a
-              href="#contact"
-              className="text-white hover:text-[#162B6A] transition duration-300"
-              onClick={toggleMenu}
-            >
+            <a href="#contact" className="text-white hover:text-[#162B6A] transition duration-300" onClick={toggleMenu}>
               Contact
             </a>
 

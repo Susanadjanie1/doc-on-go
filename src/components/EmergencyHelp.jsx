@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { PhoneCall, Hospital } from "lucide-react";
+import { PhoneCall, Hospital, ArrowLeft, AlertCircle } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router"; 
 
 const ambulanceData = {
   "Greater Accra": [
@@ -30,6 +31,7 @@ const ambulanceData = {
 
 const EmergencyHelp = () => {
   const [selectedRegion, setSelectedRegion] = useState("");
+  const navigate = useNavigate(); 
 
   const showAmbulanceToast = () => {
     if (!selectedRegion) {
@@ -65,8 +67,17 @@ const EmergencyHelp = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-10 bg-[#F4FBF4] text-gray-800">
       <h2 className="text-3xl font-bold mb-6 text-center text-[#1A6436]">
-        🚑 Emergency Assistance
-      </h2>
+  <AlertCircle size={32} className="inline mr-2" />
+  Emergency Assistance
+</h2>
+      <div className="fixed top-4 left-6 z-10">
+        <button
+          onClick={() => navigate("/patient-dash")}
+          className="text-[#7ECD26] text-3xl rounded-full p-2 hover:bg-[#7ECD26] hover:text-white transition duration-300"
+        >
+          <ArrowLeft size={24} />
+        </button>
+      </div>
 
       <div className="flex flex-col gap-6 w-full max-w-sm">
         <select

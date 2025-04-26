@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router"; 
 import { apiClient } from "../services/config";
 import { toast } from "react-toastify";
+import { ArrowLeft } from "lucide-react"; 
 
 const PatientSymptomForm = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +14,7 @@ const PatientSymptomForm = () => {
   });
 
   const [recommendations, setRecommendations] = useState(null);
-  const [isRecommendationsVisible, setIsRecommendationsVisible] =
-    useState(false);
+  const [isRecommendationsVisible, setIsRecommendationsVisible] = useState(false);
   const navigate = useNavigate();
 
   const specialties = [
@@ -34,8 +34,7 @@ const PatientSymptomForm = () => {
       const response = await apiClient.post("/request", formData);
       console.log("Submission response data:", response.data);
 
-      const payload =
-        response.data.request || response.data.data || response.data;
+      const payload = response.data.request || response.data.data || response.data;
       const requestId = payload._id;
 
       if (!requestId) {
@@ -53,21 +52,17 @@ const PatientSymptomForm = () => {
         },
         {
           id: 2,
-          recommendation:
-            "Try over-the-counter medications to alleviate mild symptoms.",
+          recommendation: "Try over-the-counter medications to alleviate mild symptoms.",
         },
         {
           id: 3,
-          recommendation:
-            "Rest and drink plenty of fluids for general wellness.",
+          recommendation: "Rest and drink plenty of fluids for general wellness.",
         },
       ]);
       setIsRecommendationsVisible(true);
     } catch (error) {
       console.error("Error submitting form:", error.response || error.message);
-      toast.error(
-        "Something went wrong. Please check your network connection and try again."
-      );
+      toast.error("Something went wrong. Please check your network connection and try again.");
     }
   };
 
@@ -106,9 +101,7 @@ const PatientSymptomForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 text-sm text-[#1A6436]">
-            Symptom Description
-          </label>
+          <label className="block mb-1 text-sm text-[#1A6436]">Symptom Description</label>
           <textarea
             name="description"
             value={formData.description}
@@ -151,9 +144,7 @@ const PatientSymptomForm = () => {
         </div>
 
         <div className="mb-6">
-          <label className="block mb-1 text-sm text-[#1A6436]">
-            Contact (Phone/Email)
-          </label>
+          <label className="block mb-1 text-sm text-[#1A6436]">Contact (Phone/Email)</label>
           <input
             type="text"
             name="followUpContact"
@@ -173,11 +164,18 @@ const PatientSymptomForm = () => {
         </button>
       </form>
 
+      <div className="fixed top-4 left-6 z-10">
+        <button
+          onClick={() => navigate("/patient-dash")}
+          className="text-[#7ECD26] text-3xl rounded-full p-2 hover:bg-[#7ECD26] hover:text-white transition duration-300"
+        >
+          <ArrowLeft size={24} />
+        </button>
+      </div>
+
       {isRecommendationsVisible && recommendations && (
         <div className="mt-6 p-4 bg-white border-2 border-[#7ECD26] rounded-xl w-full max-w-md mx-auto">
-          <h3 className="text-xl font-semibold text-[#1A6436] mb-2">
-            Recommendations
-          </h3>
+          <h3 className="text-xl font-semibold text-[#1A6436] mb-2">Recommendations</h3>
           <ul className="list-disc pl-5 text-[#1A6436]">
             {recommendations.map((rec) => (
               <li key={rec.id}>{rec.recommendation}</li>

@@ -31,7 +31,7 @@ const DocLogin = () => {
         formData
       );
 
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("accessToken", response.data.accessToken);
       toast.success("Login Successful!");
       setTimeout(() => {
         navigate("/dashboard");

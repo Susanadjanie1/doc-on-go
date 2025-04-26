@@ -15,7 +15,7 @@ const RequestCard = ({ request, onUpdateStatus, onRespond, onView }) => {
             request.status === "Pending"
               ? "bg-yellow-100 text-yellow-600"
               : request.status === "In Progress"
-              ? "bg-blue-100 text-blue-600"
+              ? "bg-blue-100 text-[#1A6436]"
               : "bg-green-100 text-green-600"
           }`}
         >

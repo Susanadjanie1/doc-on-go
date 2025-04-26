@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { apiClient } from "../services/config";
-import { ClipboardList, Loader2, Trash2, Pencil, Check } from "lucide-react";
-import { toast } from "react-toastify";
+import {
+  ClipboardList,
+  Loader2,
+  Trash2,
+  Pencil,
+  Check,
+  ArrowLeft,
+  Activity,
+} from "lucide-react";
+import toast from "react-hot-toast";
 
 const HealthLogs = () => {
   const [logs, setLogs] = useState([]);
@@ -27,7 +35,38 @@ const HealthLogs = () => {
     fetchLogs();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
+    
+    toast((t) => (
+      <div>
+        <p>Are you sure you want to delete this health log?</p>
+        <div className="flex justify-between mt-2">
+          <button
+            onClick={() => {
+              confirmDelete(id);
+              toast.dismiss(t.id); 
+            }}
+            className="text-red-600 hover:text-red-800"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss(t.id)} 
+            className="text-green-600 hover:text-green-800"
+          >
+            No
+          </button>
+        </div>
+      </div>
+    ), {
+      duration: Infinity, 
+      position: "top-center",
+      style: { background: "#fff", boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)" },
+      closeButton: false, 
+    });
+  };
+
+  const confirmDelete = async (id) => {
     try {
       await apiClient.delete(`/request/${id}`);
       setLogs(logs.filter((log) => log._id !== id));
@@ -71,17 +110,9 @@ const HealthLogs = () => {
     <div className="min-h-screen bg-gradient-to-b from-[#f0fdf4] to-[#FFFFFF] p-6 text-gray-800">
       <div className="sticky top-0 bg-white z-10 shadow-md py-4 mb-6">
         <h2 className="text-3xl font-bold text-center text-[#1A6436]">
-          📝 Health Logs
+          <Activity size={32} className="inline mr-2" />
+          Health Logs
         </h2>
-      </div>
-
-      <div className="sticky top-0 bg-white z-10 shadow-md py-4 mb-6">
-        <button
-          onClick={handleGoBack}
-          className="w-full px-8 py-3 bg-[#7ECD26] text-white rounded-xl shadow-lg hover:bg-[#1A6436] transition-all duration-300"
-        >
-          Back to Dashboard
-        </button>
       </div>
 
       {loading ? (
@@ -166,6 +197,15 @@ const HealthLogs = () => {
           ))}
         </div>
       )}
+
+      <div className="fixed top-4 left-6 z-10">
+        <button
+          onClick={() => navigate("/patient-dash")}
+          className="text-[#7ECD26] text-3xl rounded-full p-2 hover:bg-[#7ECD26] hover:text-white transition duration-300"
+        >
+          <ArrowLeft size={24} />
+        </button>
+      </div>
 
       {showRecommendations && (
         <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-200 mt-8">

@@ -87,7 +87,7 @@ const GetPrescription = () => {
         </ul>
       </div>
 
-      {/* Recommendations Section */}
+     
       {showRecommendations && (
         <div className="bg-white rounded-2xl shadow-md p-4 mb-4">
           <h3 className="text-lg font-semibold text-[#1A6436] mb-2">Health Recommendations</h3>

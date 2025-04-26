@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Camera } from "lucide-react";
 import DocImg from "../assets/images/f-doc.png";
+import { useNavigate } from "react-router";
 
 const Setting = () => {
   const [profilePic, setProfilePic] = useState(DocImg);
   const [name, setName] = useState("Dr. Angela Opoku");
-  const [specialty, setSpecialty] = useState("Eye Specialist");
+  const [specialty, setSpecialty] = useState("General Physician");
   const [password, setPassword] = useState("");
 
   const handleProfilePicChange = (e) => {
@@ -15,14 +16,18 @@ const Setting = () => {
       setProfilePic(imageUrl);
     }
   };
+const navigate = useNavigate();
 
+const Logout = () => {
+  navigate("/")
+}
   const handleSave = () => {
     alert("Profile updated successfully!");
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F4FBF4] to-[#E8F7E8] p-6">
-      <h1 className="text-2xl font-bold mb-6 text-[#1A6436]">Settings ⚙️</h1>
+      <h1 className="text-2xl font-bold mb-6 text-[#1A6436]">Settings </h1>
 
       <div className="flex flex-col items-center space-y-2 mb-8">
         <div className="relative">
@@ -87,7 +92,8 @@ const Setting = () => {
       </div>
 
       <div className="mt-8 flex justify-center">
-        <button className="text-[#7ECD26] hover:underline">Logout</button>
+        <button onClick={Logout} className="text-[#7ECD26] hover:underline">Logout</button>
+      
       </div>
     </div>
   );

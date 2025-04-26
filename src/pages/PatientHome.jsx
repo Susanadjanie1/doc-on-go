@@ -5,7 +5,7 @@ import { Search, Stethoscope } from "lucide-react";
 export function PatientHome() {
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Welcome, Adjoa Mensah</h1>
+      <h1 className="text-2xl font-bold">Welcome to DocOnGo+</h1>
 
       <div className="flex items-center space-x-2">
         <input
