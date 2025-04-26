@@ -30,6 +30,8 @@ const PatientSymptomForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    
     try {
       const response = await apiClient.post("/request", formData);
       console.log("Submission response data:", response.data);

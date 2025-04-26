@@ -112,7 +112,7 @@ const GetPrescription = () => {
           onClick={handleDownloadPDF}
           className="bg-[#7ECD26] hover:bg-[#1A6436] text-white font-medium py-3 px-6 rounded-xl flex items-center gap-2 shadow-md"
         >
-          <Download size={18} /> Download Prescription
+          <Download size={18} /> Download Symptoms
         </button>
       </div>
 
