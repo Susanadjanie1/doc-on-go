@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import doctor1 from "../assets/images/dr-nanaama.jpeg";
 import doctor2 from "../assets/images/dr-vanessa.jpeg";
 import doctor3 from "../assets/images/dr-susan.jpeg";
-import usImage from "../assets/images/us.jpeg";
+import usImage from "../assets/images/Us.jpeg";
 
 const Home = () => {
   const navigate = useNavigate();
