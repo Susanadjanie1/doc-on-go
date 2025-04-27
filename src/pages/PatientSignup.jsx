@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import { Eye, EyeOff } from "lucide-react"; 
-import "react-toastify/dist/ReactToastify.css"; 
+import { Eye, EyeOff } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 
 const PatientSignup = () => {
   const navigate = useNavigate();
@@ -18,6 +17,7 @@ const PatientSignup = () => {
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,23 +33,33 @@ const PatientSignup = () => {
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "https://docongo.onrender.com/api/v1/patient/register",
-        formData
-      );
+    setIsLoading(true);
 
-      if (response.data.success) {
-        toast.success("Registration successful!");
-        navigate("/login-patient");
-      }
-    } catch (error) {
-      setError(
-        error.response ? error.response.data.message : "Something went wrong."
-      );
-      toast.error(
-        error.response ? error.response.data.message : "Something went wrong."
-      );
+    const signupPromise = axios.post(
+      "https://docongo.onrender.com/api/v1/patient/register",
+      formData
+    );
+
+    toast.promise(signupPromise, {
+      loading: "Signing up...",
+      success: (response) => {
+        setTimeout(() => {
+          navigate("/login-patient");
+        }, 1000);
+        return "Signed Up successfully!";
+      },
+      error: (err) => {
+        setError(err?.response?.data?.message || "Something went wrong.");
+        return err?.response?.data?.message || "Something went wrong.";
+      },
+    });
+
+    try {
+      await signupPromise;
+    } catch (err) {
+      // Already handled by toast.promise
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -66,6 +76,7 @@ const PatientSignup = () => {
         {error && <p className="text-red-600 mb-4">{error}</p>}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
+          {/* Username */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Username
@@ -76,10 +87,15 @@ const PatientSignup = () => {
               value={formData.username}
               onChange={handleChange}
               required
+              // pattern="^[a-zA-Z0-9]+$"
+              // title="Username should only contain letters and numbers."
+              autoComplete="off"
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
+              placeholder="e.g., John Darko"
             />
           </div>
 
+          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email Address
@@ -90,10 +106,13 @@ const PatientSignup = () => {
               value={formData.email}
               onChange={handleChange}
               required
+              autoComplete="off"
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
+              placeholder="example@domain.com"
             />
           </div>
 
+          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Password
@@ -105,18 +124,26 @@ const PatientSignup = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+                title="Password must be at least 6 characters and include both letters and numbers."
+                autoComplete="off"
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
+                placeholder="Must be letters + numbers"
               />
+               <p className="text-xs text-gray-500 mt-1">
+              Must be at least 6 characters and include letters and numbers.
+            </p>
               <button
                 type="button"
                 className="absolute right-3 top-3 text-gray-600"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeOff /> : <Eye />}
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
           </div>
 
+          {/* Confirm Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Confirm Password
@@ -128,26 +155,35 @@ const PatientSignup = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
+                autoComplete="off"
                 className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26]"
+                placeholder="Re-type your password"
               />
               <button
                 type="button"
                 className="absolute right-3 top-3 text-gray-600"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                {showConfirmPassword ? <EyeOff /> : <Eye />}
+                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-[#1A6436] hover:bg-[#7ECD26] text-white font-semibold py-2.5 rounded-lg transition duration-300"
+            className="w-full bg-[#1A6436] hover:bg-[#7ECD26] text-white font-semibold py-3 rounded-lg transition duration-300 flex justify-center items-center gap-2"
+            disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? (
+              <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </form>
 
+        {/* Login Link */}
         <p className="text-sm text-gray-600 text-center mt-4">
           Already have an account?{" "}
           <a
@@ -159,7 +195,7 @@ const PatientSignup = () => {
         </p>
       </div>
 
-      <ToastContainer />
+      {/* <Toaster position="top-center" reverseOrder={false} /> */}
     </div>
   );
 };

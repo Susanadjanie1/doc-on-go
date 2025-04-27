@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Eye, EyeOff } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 
 const DocSignup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -16,11 +18,10 @@ const DocSignup = () => {
     confirmPassword: "",
     specialty: "",
   });
-  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -31,20 +32,33 @@ const DocSignup = () => {
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "https://docongo.onrender.com/api/v1/doctor/register",
-        formData
-      );
+    setIsLoading(true);
 
-      if (response.data.success) {
-        toast.success("Registration successful!");
-        setTimeout(() => navigate("/login-doctor"), 1500);
-      }
-    } catch (error) {
-      setError(
-        error.response?.data?.message || "Something went wrong. Try again."
-      );
+    const signupPromise = axios.post(
+      "https://docongo.onrender.com/api/v1/doctor/register",
+      formData
+    );
+
+    toast.promise(signupPromise, {
+      loading: "Registering...",
+      success: (response) => {
+        setTimeout(() => {
+          navigate("/login-doctor");
+        }, 1000);
+        return "Registration successful!";
+      },
+      error: (err) => {
+        setError(err?.response?.data?.message || "Something went wrong. Try again.");
+        return err?.response?.data?.message || "Something went wrong.";
+      },
+    });
+
+    try {
+      await signupPromise;
+    } catch (err) {
+      // Already handled by toast
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,10 +66,9 @@ const DocSignup = () => {
     <div
       className="min-h-screen w-full flex items-center justify-center bg-cover bg-center"
       style={{
-        backgroundImage: `url('/assets/images/doc-1.png')`, 
+        backgroundImage: `url('/assets/images/doc-1.png')`,
       }}
     >
-      <ToastContainer />
       <div className="bg-white/70 backdrop-blur-md p-8 rounded-3xl shadow-2xl w-full max-w-xl mx-4 sm:mx-8">
         <h2 className="text-3xl font-bold text-[#1A6436] mb-1 text-center">
           Doctor Sign Up
@@ -67,6 +80,7 @@ const DocSignup = () => {
         {error && <p className="text-red-600 mb-4 text-sm">{error}</p>}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
+          {/* Username */}
           <div>
             <label className="block text-sm font-medium text-[#1A6436]">
               Username
@@ -78,9 +92,11 @@ const DocSignup = () => {
               onChange={handleChange}
               required
               className="mt-1 w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26] bg-white"
+               placeholder="e.g., Kwame Mensah"
             />
           </div>
 
+          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-[#1A6436]">
               Email Address
@@ -92,9 +108,11 @@ const DocSignup = () => {
               onChange={handleChange}
               required
               className="mt-1 w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26] bg-white"
+               placeholder="example@domain.com"
             />
           </div>
 
+          {/* Password */}
           <div className="relative">
             <label className="block text-sm font-medium text-[#1A6436]">
               Password
@@ -106,7 +124,11 @@ const DocSignup = () => {
               onChange={handleChange}
               required
               className="mt-1 w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26] bg-white"
+                placeholder="Must be letters + numbers"
             />
+             <p className="text-xs text-gray-500 mt-1">
+              Must be at least 6 characters and include letters and numbers.
+            </p>
             <div
               className="absolute right-3 top-9 cursor-pointer text-gray-500"
               onClick={() => setShowPassword(!showPassword)}
@@ -115,6 +137,7 @@ const DocSignup = () => {
             </div>
           </div>
 
+          {/* Confirm Password */}
           <div className="relative">
             <label className="block text-sm font-medium text-[#1A6436]">
               Confirm Password
@@ -126,7 +149,9 @@ const DocSignup = () => {
               onChange={handleChange}
               required
               className="mt-1 w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7ECD26] bg-white"
+               placeholder="Re-type your password"
             />
+            
             <div
               className="absolute right-3 top-9 cursor-pointer text-gray-500"
               onClick={() => setShowConfirm(!showConfirm)}
@@ -135,6 +160,7 @@ const DocSignup = () => {
             </div>
           </div>
 
+          {/* Specialty */}
           <div>
             <label className="block text-sm font-medium text-[#1A6436]">
               Specialty
@@ -154,14 +180,21 @@ const DocSignup = () => {
             </select>
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-[#1A6436] hover:bg-[#14552e] text-white font-semibold py-2.5 rounded-lg transition duration-300"
+            className="w-full bg-[#1A6436] hover:bg-[#14552e] text-white font-semibold py-2.5 rounded-lg transition duration-300 flex items-center justify-center gap-2"
+            disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? (
+              <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </form>
 
+        {/* Already have an account link */}
         <p className="text-sm text-gray-700 text-center mt-4">
           Already have an account?{" "}
           <a
@@ -172,6 +205,9 @@ const DocSignup = () => {
           </a>
         </p>
       </div>
+
+      {/* Hot Toast Container */}
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };
